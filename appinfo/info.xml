@@ -13,11 +13,12 @@
     <licence>agpl</licence>
     <author mail="skjnldsv@protonmail.com">John Molakvoæ</author>
     <namespace>Photos</namespace>
-    <category>multimedia</category>
+
     <types>
-        <dav />
         <authentication />
+        <dav />
     </types>
+    <category>multimedia</category>
 
     <website>https://github.com/nextcloud/photos</website>
     <bugs>https://github.com/nextcloud/photos/issues</bugs>
@@ -25,6 +26,26 @@
     <dependencies>
         <nextcloud min-version="34" max-version="34" />
     </dependencies>
+
+    <background-jobs>
+        <job>OCA\Photos\Jobs\AutomaticPlaceMapperJob</job>
+    </background-jobs>
+
+    <repair-steps>
+        <post-migration>
+            <step>OCA\Photos\RepairStep\InitMetadata</step>
+        </post-migration>
+        <install>
+            <step>OCA\Photos\RepairStep\InitMetadata</step>
+        </install>
+    </repair-steps>
+
+    <commands>
+        <command>OCA\Photos\Command\UpdateReverseGeocodingFilesCommand</command>
+        <command>OCA\Photos\Command\AlbumAddCommand</command>
+        <command>OCA\Photos\Command\AlbumCreateCommand</command>
+    </commands>
+
     <navigations>
         <navigation>
             <name>Photos</name>
@@ -32,12 +53,6 @@
             <order>1</order>
         </navigation>
     </navigations>
-
-    <commands>
-        <command>OCA\Photos\Command\UpdateReverseGeocodingFilesCommand</command>
-        <command>OCA\Photos\Command\AlbumAddCommand</command>
-        <command>OCA\Photos\Command\AlbumCreateCommand</command>
-    </commands>
 
     <sabre>
         <collections>
@@ -48,18 +63,4 @@
             <plugin>OCA\Photos\Sabre\PropFindPlugin</plugin>
         </plugins>
     </sabre>
-
-    <background-jobs>
-        <job>OCA\Photos\Jobs\AutomaticPlaceMapperJob</job>
-    </background-jobs>
-
-    <repair-steps>
-        <install>
-            <step>OCA\Photos\RepairStep\InitMetadata</step>
-        </install>
-        <post-migration>
-            <step>OCA\Photos\RepairStep\InitMetadata</step>
-        </post-migration>
-    </repair-steps>
-
 </info>
